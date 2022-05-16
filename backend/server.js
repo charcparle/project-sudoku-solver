@@ -1,63 +1,38 @@
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const expect = require('chai').expect;
-const cors = require('cors');
+require("dotenv").config()
+const express = require("express")
 
-const fccTestingRoutes = require('./routes/fcctesting.js');
-const apiRoutes = require('./routes/api.js');
-const runner = require('./test-runner');
-const test = 'test'
+// const apiRoutes = require("./routes/api.js")
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.use('/public', express.static(process.cwd() + '/public'));
-app.use(cors({ origin: '*' })); //For FCC testing purposes only
+// app.use("/public", express.static(process.cwd() + "/public"))
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-//Index page (static HTML)
-app.route('/')
-    .get(function (req, res) {
-        res.sendFile(process.cwd() + '/views/index.html');
-    });
-
-//For FCC testing purposes
-fccTestingRoutes(app);
+// Index page (static HTML)
+app.route("/").get(function (req, res) {
+  res.sendFile(process.cwd() + "/views/index.html")
+})
 
 // Request Logger
 app.use((req, res, next) => {
-    console.log(req.method + " " + req.path + " - " + req.ip);
-    next();
+  console.log(req.method + " " + req.path + " - " + req.ip)
+  next()
 })
 
 // User routes
-apiRoutes(app);
+app.use("/api/check", require("./routes/check"))
+app.use("/api/solve", require("./routes/solve"))
 
 //404 Not Found Middleware
 app.use(function (req, res, next) {
-    res.status(404)
-        .type('text')
-        .send('Not Found');
-});
+  res.status(404).type("text").send("Not Found")
+})
 
-//Start our server and tests!
-const PORT = process.env.PORT || 3000
+// Start server
+const PORT = process.env.PORT || 4000
 app.listen(PORT, function () {
-    console.log("Listening on port " + PORT);
-    // process.env.NODE_ENV='test'
-    if (process.env.NODE_ENV === 'test') {
-        console.log('Running Tests...');
-        setTimeout(function () {
-            try {
-                runner.run();
-            } catch (error) {
-                console.log('Tests are not valid:');
-                console.error(error);
-            }
-        }, 1500);
-    }
-});
+  console.log("Listening on port " + PORT)
+})
 
-module.exports = app; // for testing
+module.exports = app // for testing
