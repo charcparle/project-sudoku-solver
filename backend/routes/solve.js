@@ -17,9 +17,9 @@ router.route("/").post((req, res) => {
     if (result == null) {
       res.json({ error: "Puzzle cannot be solved" })
     } else {
-      console.log(result)
       res.json({ solution: result })
     }
   }
+  return
 })
 module.exports = router

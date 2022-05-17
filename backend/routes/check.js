@@ -22,9 +22,8 @@ router.route("/").post((req, res) => {
     val = req.body.value
     console.log(puzzleStr, coor, val)
   }
-  let row = coor.charCodeAt(0) - 97
-  let col = coor[1] - 1
-  console.log(`row: ${row}, col: ${col}`)
+  let row = coor.charCodeAt(0) - 97 // getting the charCode of the first character, note that charcode of "a" is 97 --> row INDEX (zero based)
+  let col = coor[1] - 1 // getting the second character from the input --> column INDEX (zero based)
   let coorRegex = /^[a-zA-Z][1-9]$/
   let valRegex = /^[1-9]{1}$/
   if (solver.validate(puzzleStr) != "validated") {
@@ -35,8 +34,8 @@ router.route("/").post((req, res) => {
   } else if (!valRegex.test(val)) {
     res.json({ error: "Invalid value" })
   } else {
-    let rowCheck = solver.checkRowPlacement(puzzleStr, row, col, val)
-    let colCheck = solver.checkColPlacement(puzzleStr, row, col, val)
+    let rowCheck = solver.checkRowPlacement(puzzleStr, row, val)
+    let colCheck = solver.checkColPlacement(puzzleStr, col, val)
     let regCheck = solver.checkRegionPlacement(puzzleStr, row, col, val)
     let validity = true
     let confArr = []
@@ -53,21 +52,4 @@ router.route("/").post((req, res) => {
   }
 })
 
-router.route("/api/solve").post((req, res) => {
-  let puzzleStr = req.body.puzzle
-  console.log(`puzzleStr: ${puzzleStr}`)
-  if (puzzleStr == undefined) {
-    res.json({ error: "Required field missing" })
-  } else if (solver.validate(puzzleStr) != "validated") {
-    res.json(solver.validate(puzzleStr))
-  } else {
-    let result = solver.solve(puzzleStr)
-    if (result == null) {
-      res.json({ error: "Puzzle cannot be solved" })
-    } else {
-      console.log(result)
-      res.json({ solution: result })
-    }
-  }
-})
 module.exports = router
