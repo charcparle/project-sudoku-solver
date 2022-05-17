@@ -7,12 +7,13 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use("/public", express.static(process.cwd() + "/public"))
 
 // Index page (static HTML)
 app.route("/").get(function (req, res) {
-  res.sendFile(process.cwd() + "/views/index.html")
+  res.sendFile(process.cwd() + "/frontend/views/index.html")
 })
+// Static files for frontend
+app.use("/public", express.static(process.cwd() + "/frontend/public"))
 
 // Request Logger
 app.use((req, res, next) => {

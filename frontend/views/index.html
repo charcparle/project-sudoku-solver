@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver - Landing page</title>
+    <link rel="stylesheet" href="../public/style.css" type="text/css" />
+  </head>
+  <body>
+    <h1>Sudoku Solver</h1>
+    <h4>Give me a puzzle and I'll solve it for you.</h4>
+    <div class="container">
+      <div class="form-container">
+        <form id="solve-form">
+          <textarea
+          rows="10"
+          cols="85"
+          id="text-input"
+          name="puzzle"
+          ></textarea>
+          <br />
+          <input type="button" value="Solve" id="solve-button"/>
+          <div id="error-msg"></div>
+        </form>
+        <form id="check-form">
+          <p>Coordinate (A1): <input id="coord" class="checker" type="text" name="coordinate"></p>
+          <p>Value (1-9): <input class="checker" type="text" id="val" name="value"></p>
+          <input type="button" id="check-button" value="Check Placement">
+        </form>
+        <span id="error"></span>
+      </div>
+      
+      <div id="sudoku-grid-container">
+        <div>
+          <table class="yAxisLegend">
+            <tr>
+              <td>A</td>
+            </tr>
+            <tr>
+              <td>B</td>
+            </tr>
+            <tr>
+              <td>C</td>
+            </tr>
+            <tr>
+              <td>D</td>
+            </tr>
+            <tr>
+              <td>E</td>
+            </tr>
+            <tr>
+              <td>F</td>
+            </tr>
+            <tr>
+              <td>G</td>
+            </tr>
+            <tr>
+              <td>H</td>
+            </tr>
+            <tr>
+              <td>I</td>
+            </tr>
+          </table>
+        </div>
+        <div id="sudoku-grid">
+          <table class="xAxisLegend">
+            <tr>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+              <td>4</td>
+              <td>5</td>
+              <td>6</td>
+              <td>7</td>
+              <td>8</td>
+              <td>9</td>
+            </tr>
+          </table>
+        </body>
+        <script type="module" src="../public/index.js"></script>
+        </html>
