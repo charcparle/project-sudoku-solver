@@ -3,9 +3,9 @@ const express = require("express")
 const router = express.Router()
 const SudokuSolver = require("../controllers/sudoku-solver.js")
 
-let solver = new SudokuSolver()
+const solver = new SudokuSolver()
 
-router.route("/api/check").post((req, res) => {
+router.route("/").post((req, res) => {
   let puzzleStr,
     coor,
     val = ""

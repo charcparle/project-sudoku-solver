@@ -5,7 +5,7 @@ const SudokuSolver = require("../controllers/sudoku-solver.js")
 
 let solver = new SudokuSolver()
 
-router.route("/api/solve").post((req, res) => {
+router.route("/").post((req, res) => {
   let puzzleStr = req.body.puzzle
   console.log(`puzzleStr: ${puzzleStr}`)
   if (puzzleStr == undefined) {
