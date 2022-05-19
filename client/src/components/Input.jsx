@@ -1,9 +1,14 @@
-
 function Input() {
+  const placeholderString =
+    "Input the puzzle in here - row by row, and use '.' for empty space"
   return (
-    <div>
+    <div className="flex flex-col m-2 p-2 text-white justify-end h-full">
       Puzzle String:
-      <textarea row={"15"} col="40" className="block"></textarea>
+      <textarea
+        className="block bg-gray-300 placeholder:italic placeholder:text-sm rounded text-midnightGreen hover:bg-gray-100"
+        placeholder={placeholderString}
+      ></textarea>
+      <button className="btn" type="submit">Solve</button>
     </div>
   )
 }
