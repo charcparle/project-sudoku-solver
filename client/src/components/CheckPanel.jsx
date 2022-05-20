@@ -5,14 +5,16 @@ function CheckPanel() {
         Value:
         <input
           type="text"
-          className="bg-gray-300 w-2/3 rounded text-glowEmerald"
+          className="bg-gray-300 w-2/3 rounded text-glowEmerald placeholder:italic placeholder:text-sm"
+          placeholder="(1-9)"
         />
       </div>
       <div className="flex flex-row justify-between m-1">
         Location:
         <input
           type="text"
-          className="bg-gray-300 w-2/3 rounded text-glowEmerald"
+          className="bg-gray-300 w-2/3 rounded text-glowEmerald placeholder:italic placeholder:text-sm"
+          placeholder="e.g. H4"
         />
       </div>
       <div className="flex items-center w-full">
