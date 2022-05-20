@@ -1,25 +1,24 @@
+import { useContext, useEffect } from "react"
+import SudokuContext from "../context/SudokuContext"
+import BoardCell from "./BoardCell"
 function Board() {
-  let grids = []
-  for (let i = 1; i <= 81; i++) {
-    grids.push(
-      <div
-        className={
-          "flex bg-greenApple hover:bg-white border border-glowEmerald items-center text-sm m-0 p-1 h-16 w-16 content-center justify-center " +
-          (i % 3 === 0 && " border-r-8 ") +
-          (i % 9 === 1 && " border-l-8 ") +
-          (Math.ceil(i / 9) % 3 === 0 && " border-b-4 ") +
-          (Math.ceil(i / 9) === 1 && " border-t-8 ") +
-          (Math.ceil(i / 9) === 9 && " border-b-8 ")
-        }
-        key={i}
-      >
-        {i}
-      </div>
+  const { puzzleStr, solutionStr } = useContext(SudokuContext)
+  let puzzleArr = []
+  puzzleArr =
+    "..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..".split(
+      ""
     )
-  }
+  useEffect(() => {
+    if (solutionStr === "" || solutionStr === undefined) {
+      puzzleArr = puzzleStr.split("")
+    } else {
+      puzzleArr = solutionStr.split("")
+    }
+    console.log(`puzzleArr: ${puzzleArr}`)
+  }, [puzzleStr, solutionStr])
   return (
     <div className="flex flex-col items-center">
-      <div className="grid grid-cols-9 w-max">{grids}</div>
+      <div className="grid grid-cols-9 w-max">{puzzleArr.map((x,i)=>(<BoardCell content={x} idx={i} key={i}/>))}</div>
     </div>
   )
 }
