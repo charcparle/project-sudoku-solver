@@ -1,0 +1,40 @@
+import { useState, useContext, useEffect } from "react"
+import SudokuContext from "../context/SudokuContext"
+import BoardCell from "./BoardCell"
+function Board() {
+  const { puzzleStr, solutionStr } = useContext(SudokuContext)
+  let emptyArr = []
+  for (let i = 0; i < 81; i++) {
+    emptyArr.push(".")
+  }
+  const [puzzleArr, setPuzzleArr] = useState(emptyArr)
+  useEffect(() => {
+    if (solutionStr === "" || !solutionStr) {
+      // Handle cases where length!==81
+      let diff = 81 - puzzleStr.length
+      let targetArr = puzzleStr.split("")
+      if (diff > 0) {
+        for (let j = 0; j < diff; j++) {
+          targetArr.push(".")
+        }
+      } else if (diff < 0) {
+        targetArr = targetArr.slice(0, 81)
+      }
+      setPuzzleArr(targetArr)
+    } else {
+      // When Solution is retrieved
+      setPuzzleArr(solutionStr.split(""))
+    }
+  }, [puzzleStr, solutionStr, setPuzzleArr])
+  return (
+    <div className="flex flex-col items-center">
+      <div className="grid grid-cols-9 w-max">
+        {puzzleArr.map((x, i) => (
+          <BoardCell content={x} idx={i} key={i} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default Board
