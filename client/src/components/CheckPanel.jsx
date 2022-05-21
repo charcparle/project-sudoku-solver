@@ -1,20 +1,34 @@
 import { useState, useContext } from "react"
+import SudokuContext from "../context/SudokuContext"
+import { getValidation } from "../context/SudokuActions"
 
 function CheckPanel() {
   const [toBeChecked, setToBeChecked] = useState({
     digit: "",
     loc: "",
   })
+  const { puzzleStr, validated, dispatch } = useContext(SudokuContext)
   // const handleChange = (e,)
-  const handleChangeDigit = (e)=>{
-    setToBeChecked((prevState)=>({...prevState, digit:e.target.value}))
+  const handleChangeDigit = (e) => {
+    setToBeChecked((prevState) => ({ ...prevState, digit: e.target.value }))
   }
-  const handleChangeLoc = (e)=>{
-    setToBeChecked((prevState)=>({...prevState, loc:e.target.value}))
+  const handleChangeLoc = (e) => {
+    setToBeChecked((prevState) => ({ ...prevState, loc: e.target.value }))
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     console.log("Sent for checking")
+    let result = {}
+    try {
+      result = await getValidation(
+        puzzleStr,
+        toBeChecked.loc,
+        toBeChecked.digit
+      )
+      dispatch({ type: "GET_VALIDITY", payload: result })
+    } catch (error) {
+      alert(error)
+    }
   }
   return (
     <form

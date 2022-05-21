@@ -10,7 +10,7 @@ const sudokuReducer = (state, action) => {
             return {
                 ...state,
                 puzzleStr: action.payload.puzzle,
-                solutionStr: ""
+                solutionStr: null
             }
         case "GET_VALIDITY":
             return {

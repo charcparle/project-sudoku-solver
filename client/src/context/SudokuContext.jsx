@@ -7,7 +7,7 @@ export const SudokuProvider = ({ children }) => {
   const initState = {
     puzzleStr: "",
     solutionStr: null,
-    validated: false,
+    validated: {},
     loading: false,
   }
   const [state, dispatch] = useReducer(sudokuReducer, initState)
