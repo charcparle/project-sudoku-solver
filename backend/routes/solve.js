@@ -8,18 +8,21 @@ let solver = new SudokuSolver()
 router.route("/").post((req, res) => {
   let puzzleStr = req.body.puzzle
   console.log(`puzzleStr: ${puzzleStr}`)
-  if (puzzleStr == undefined) {
+  if (puzzleStr === undefined || puzzleStr === "") {
     res.json({ error: "Required field missing" })
-  } else if (solver.validate(puzzleStr) != "validated") {
-    res.json(solver.validate(puzzleStr))
-  } else {
-    let result = solver.solve(puzzleStr)
-    if (result == null) {
-      res.json({ error: "Puzzle cannot be solved" })
-    } else {
-      res.json({ solution: result })
-    }
+    return
   }
+  const checkResult = solver.validate(puzzleStr)
+  if (checkResult != "validated") {
+    res.json(checkResult)
+    return
+  }
+  const result = solver.solve(puzzleStr)
+  if (result == null) {
+    res.json({ error: "Puzzle cannot be solved" })
+    return
+  }
+  res.json({ solution: result })
   return
 })
 module.exports = router
