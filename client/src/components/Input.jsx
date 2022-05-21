@@ -8,6 +8,10 @@ function Input() {
     "Input the puzzle in here - row by row, and use '.' for empty space"
   const handleChange = (e) => {
     setText(e.target.value)
+    dispatch({
+      type: "UPDATE_CURRENT",
+      payload: {puzzle: e.target.value}
+    })
   }
   const handleSubmit = async (e) => {
     e.preventDefault()

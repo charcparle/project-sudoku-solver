@@ -6,6 +6,17 @@ const sudokuReducer = (state, action) => {
                 puzzleStr: action.payload.puzzle,
                 solutionStr: action.payload.solution
             }
+        case "UPDATE_CURRENT":
+            return {
+                ...state,
+                puzzleStr: action.payload.puzzle,
+                solutionStr: ""
+            }
+        case "GET_VALIDITY":
+            return {
+                ...state,
+                validated: action.payload
+            }
         default:
             break;
     }
