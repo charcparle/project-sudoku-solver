@@ -8,6 +8,7 @@ export const getSolution = async (puzzleStr) => {
     if (response.data.error) throw response.data.error
     return response.data.solution
   } catch (error) {
+    if (typeof error === "object") throw error.message
     throw error
   }
 }
@@ -18,6 +19,7 @@ export const getValidation = async (puzzleStr, coor, val) => {
     if (response.data.error) throw response.data.error
     return response.data
   } catch (error) {
+    if (typeof error === "object") throw error.message
     throw error
   }
 }

@@ -1,6 +1,7 @@
 import { useState, useContext } from "react"
 import SudokuContext from "../context/SudokuContext"
 import { getValidation } from "../context/SudokuActions"
+import { toast } from "react-toastify"
 
 function CheckPanel() {
   const [toBeChecked, setToBeChecked] = useState({
@@ -8,7 +9,6 @@ function CheckPanel() {
     loc: "",
   })
   const { puzzleStr, validated, dispatch } = useContext(SudokuContext)
-  // const handleChange = (e,)
   const handleChangeDigit = (e) => {
     setToBeChecked((prevState) => ({ ...prevState, digit: e.target.value }))
   }
@@ -17,7 +17,6 @@ function CheckPanel() {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("Sent for checking")
     let result = {}
     try {
       result = await getValidation(
@@ -26,8 +25,14 @@ function CheckPanel() {
         toBeChecked.digit
       )
       dispatch({ type: "GET_VALIDITY", payload: result })
+      const msg = `The placement is ${
+        result.valid
+          ? "valid"
+          : "invalid - Conflict within ".concat(result.conflict.join(","))
+      }`
+      toast.info(msg, { autoClose: 5000 })
     } catch (error) {
-      alert(error)
+      toast.error(error)
     }
   }
   return (
@@ -36,16 +41,6 @@ function CheckPanel() {
       onSubmit={handleSubmit}
     >
       <div className="flex flex-row justify-between m-1">
-        Value:
-        <input
-          type="text"
-          className="bg-gray-300 w-2/3 rounded text-glowEmerald placeholder:italic placeholder:text-sm"
-          placeholder=" (1-9)"
-          onChange={handleChangeDigit}
-          value={toBeChecked.digit}
-        />
-      </div>
-      <div className="flex flex-row justify-between m-1">
         Location:
         <input
           type="text"
@@ -53,6 +48,16 @@ function CheckPanel() {
           placeholder=" e.g. H4"
           onChange={handleChangeLoc}
           value={toBeChecked.loc}
+        />
+      </div>
+      <div className="flex flex-row justify-between m-1">
+        Value:
+        <input
+          type="text"
+          className="bg-gray-300 w-2/3 rounded text-glowEmerald placeholder:italic placeholder:text-sm"
+          placeholder=" (1-9)"
+          onChange={handleChangeDigit}
+          value={toBeChecked.digit}
         />
       </div>
       <div className="flex items-center w-full">

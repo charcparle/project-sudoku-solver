@@ -2,10 +2,13 @@ import Board from "./components/Board"
 import Input from "./components/Input"
 import CheckPanel from "./components/CheckPanel"
 import { SudokuProvider } from "./context/SudokuContext"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function App() {
   return (
     <SudokuProvider>
+      <ToastContainer autoClose={2000} pauseOnFocusLoss pauseOnHover={false} />
       <div className="h-full p-8">
         <h1 className="font-bold text-2xl text-greenApple">Sudoku Solver</h1>
         <h4 className="text-white italic">

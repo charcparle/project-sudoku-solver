@@ -1,16 +1,17 @@
 import { useState, useContext } from "react"
 import SudokuContext from "../context/SudokuContext"
 import { getSolution } from "../context/SudokuActions"
+import { toast } from "react-toastify"
 function Input() {
   const [text, setText] = useState("")
-  const { puzzlestr, solutionStr, dispatch } = useContext(SudokuContext)
+  const { dispatch } = useContext(SudokuContext)
   const placeholderString =
     "Input the puzzle in here - row by row, and use '.' for empty space"
   const handleChange = (e) => {
     setText(e.target.value)
     dispatch({
       type: "UPDATE_CURRENT",
-      payload: {puzzle: e.target.value}
+      payload: { puzzle: e.target.value },
     })
   }
   const handleSubmit = async (e) => {
@@ -18,13 +19,14 @@ function Input() {
     let solution = ""
     try {
       solution = await getSolution(text)
+      dispatch({
+        type: "GET_SOLUTION",
+        payload: { puzzle: text, solution: solution },
+      })
+      toast.success("Solved :)")
     } catch (error) {
-      alert(error)
+      toast.error(error)
     }
-    dispatch({
-      type: "GET_SOLUTION",
-      payload: { puzzle: text, solution: solution },
-    })
   }
   return (
     <div className="flex flex-col m-2 p-2 text-white justify-end h-full">
