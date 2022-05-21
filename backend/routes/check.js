@@ -50,6 +50,7 @@ router.route("/").post((req, res) => {
       res.json({ valid: validity, conflict: confArr })
     }
   }
+  return
 })
 
 module.exports = router
