@@ -22,34 +22,44 @@ router.route("/").post((req, res) => {
     val = req.body.value
     console.log(puzzleStr, coor, val)
   }
-  let row = coor.charCodeAt(0) - 97 // getting the charCode of the first character, note that charcode of "a" is 97 --> row INDEX (zero based)
-  let col = coor[1] - 1 // getting the second character from the input --> column INDEX (zero based)
-  let coorRegex = /^[a-zA-Z][1-9]$/
-  let valRegex = /^[1-9]{1}$/
-  if (solver.validate(puzzleStr) != "validated") {
-    console.log(solver.validate(puzzleStr))
-    res.json(solver.validate(puzzleStr))
-  } else if (!coorRegex.test(coor)) {
-    res.json({ error: "Invalid coordinate" })
-  } else if (!valRegex.test(val)) {
-    res.json({ error: "Invalid value" })
-  } else {
-    let rowCheck = solver.checkRowPlacement(puzzleStr, row, val)
-    let colCheck = solver.checkColPlacement(puzzleStr, col, val)
-    let regCheck = solver.checkRegionPlacement(puzzleStr, row, col, val)
-    let validity = true
-    let confArr = []
-    if (rowCheck == true && colCheck == true && regCheck == true) {
-      validity = true
-      res.json({ valid: validity })
-    } else {
-      validity = false
-      !rowCheck && confArr.push("row")
-      !colCheck && confArr.push("column")
-      !regCheck && confArr.push("region")
-      res.json({ valid: validity, conflict: confArr })
-    }
+  const row = coor.charCodeAt(0) - 97 // getting the charCode of the first character, note that charcode of "a" is 97 --> row INDEX (zero based)
+  const col = coor[1] - 1 // getting the second character from the input --> column INDEX (zero based)
+  const coorRegex = /^[a-zA-Z][1-9]$/
+  const valRegex = /^[1-9]{1}$/
+  const checkResult = solver.validate(puzzleStr)
+  // Validate puzzle string
+  if (checkResult != "validated") {
+    res.json(checkResult)
+    return
   }
+  // Validate Coordinate input
+  if (!coorRegex.test(coor)) {
+    res.json({ error: "Invalid coordinate" })
+    return
+  }
+  // Validate Value input
+  if (!valRegex.test(val)) {
+    res.json({ error: "Invalid value" })
+    return
+  }
+  // Check Row, Column, Region
+  const rowCheck = solver.checkRowPlacement(puzzleStr, row, val)
+  const colCheck = solver.checkColPlacement(puzzleStr, col, val)
+  const regCheck = solver.checkRegionPlacement(puzzleStr, row, col, val)
+  let validity = false
+  let result = { valid: validity }
+  let conflictArr = []
+  if (rowCheck && colCheck && regCheck) {
+    validity = true
+  } else {
+    validity = false
+    !rowCheck && conflictArr.push("row")
+    !colCheck && conflictArr.push("column")
+    !regCheck && conflictArr.push("region")
+    result = { ...result, conflict: conflictArr }
+  }
+  result = { ...result, valid: validity }
+  res.json(result)
   return
 })
 
