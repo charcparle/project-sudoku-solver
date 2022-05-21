@@ -3,18 +3,22 @@ const express = require("express")
 
 // const apiRoutes = require("./routes/api.js")
 
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+const app = express()
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
+if (process.env.NODE_ENV === "production") {
+  // Set build folder as static
+  app.use(express.static(path.join(__dirname, "../client/build")))
 
-// Index page (static HTML)
-app.route("/").get(function (req, res) {
-  res.sendFile(process.cwd() + "/frontend/views/index.html")
-})
-// Static files for frontend
-app.use("/public", express.static(process.cwd() + "/frontend/public"))
-
+  app.get("*", (req, res) => {
+    res.sendFile(__dirname, "../", "client", "build", "index.html")
+  })
+} else {
+  app.get("/", (req, res) => {
+    res.status(200).json({ message: "Hello there from express" })
+  })
+}
 // Request Logger
 app.use((req, res, next) => {
   console.log(req.method + " " + req.path + " - " + req.ip)
