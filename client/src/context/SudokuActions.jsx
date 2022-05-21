@@ -6,9 +6,9 @@ export const getSolution = async (puzzleStr) => {
   const toBeSolved = { puzzle: puzzleStr }
   try {
     const response = await axios.post("/api/solve", toBeSolved)
+    if (response.data.error) throw response.data.error
     return response.data.solution
   } catch (error) {
-    console.log(error)
-    return
+    throw (error)
   }
 }

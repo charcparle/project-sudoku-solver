@@ -15,9 +15,12 @@ function Input() {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(text)
-    const solution = await getSolution(text)
-    console.log(solution)
+    let solution = ""
+    try {
+      solution = await getSolution(text)
+    } catch (error) {
+      alert(error)
+    }
     dispatch({
       type: "GET_SOLUTION",
       payload: { puzzle: text, solution: solution },

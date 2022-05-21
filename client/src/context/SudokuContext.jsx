@@ -6,7 +6,7 @@ const SudokuContext = createContext()
 export const SudokuProvider = ({ children }) => {
   const initState = {
     puzzleStr: "",
-    solutionStr: "",
+    solutionStr: null,
     validated: false,
     loading: false,
   }

@@ -9,8 +9,8 @@ function Board() {
   }
   const [puzzleArr, setPuzzleArr] = useState(emptyArr)
   useEffect(() => {
-    if (solutionStr === "" || solutionStr === undefined) {
-      // Handle cases where length<81
+    if (solutionStr === "" || !solutionStr) {
+      // Handle cases where length!==81
       let diff = 81 - puzzleStr.length
       let targetArr = puzzleStr.split("")
       if (diff > 0) {
