@@ -29,6 +29,15 @@ function App() {
               </div>
             </div>
           </div>
+          <div className="flex flex-row justify-end text-white text-xs opacity-50 w-full mt-2">
+            <a
+              href="https://charlescheng.tech"
+              target="_blank"
+              rel="noreferrer"
+            >
+              charlescheng.tech
+            </a>
+          </div>
         </div>
       </div>
     </SudokuProvider>
