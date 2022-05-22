@@ -26,9 +26,17 @@ function Board() {
       setPuzzleArr(solutionStr.split(""))
     }
   }, [puzzleStr, solutionStr, setPuzzleArr])
+  const xLabel = [" "]
+  for (let c = 1; c <= 9; c++) {
+    xLabel.push(c)
+    c === 9 && xLabel.push("")  // placeholder for the 11th column
+  }
   return (
     <div className="flex flex-col items-center">
-      <div className="grid grid-cols-9 w-max">
+      <div className="grid grid-cols-11 w-max">
+        {xLabel.map((x) => (
+          <div className="flex justify-center text-greenApple">{x}</div>
+        ))}
         {puzzleArr.map((x, i) => (
           <BoardCell content={x} idx={i} key={i} />
         ))}
