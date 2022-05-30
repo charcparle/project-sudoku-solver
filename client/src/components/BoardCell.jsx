@@ -14,10 +14,8 @@ function BoardCell({ content, idx }) {
           (n % 3 === 0 && " border-r-4 ") + // every 3 column show right border
           (n % 9 === 1 && " border-l-4 ") + // 1st column shows left border
           (Math.ceil(n / 9) % 3 === 0 && " border-b-4 ") + // every 3 row show bottom border
-          (Math.ceil(n / 9) === 1 && " border-t-4 ") + // 1st row shows top border
-          (Math.ceil(n / 9) === 9 && " border-b-4 ") // Last row shows bottom
+          (Math.ceil(n / 9) === 1 && " border-t-4 ") // 1st row shows top border
         }
-        key={`cell-${n}`}
       >
         {content === "." ? "" : content}
       </div>
